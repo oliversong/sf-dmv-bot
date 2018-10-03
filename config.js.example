@@ -1,0 +1,22 @@
+module.exports = {
+  areaCode: "",
+  telPrefix: "",
+  telSuffix: "",
+  firstName: '',
+  lastName: '',
+  locationId: '503',
+  threshold: 30,
+  twilio: {
+    accountSid: 'SID',
+    authToken: 'TOKEN',
+    serviceSid: 'SID',
+    toNumber: '+11234567890',
+    fromNumber: '+11234567890',
+  },
+  twitter: {
+    accessToken: '',
+    accessTokenSecret: '',
+    consumerKey: '',
+    consumerSecret: '',
+  },
+};

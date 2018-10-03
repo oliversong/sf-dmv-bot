@@ -1,0 +1,17 @@
+{
+  "name": "sf-dmv-bot",
+  "version": "0.0.1",
+  "description": "DMV appointment checker",
+  "main": "index.js",
+  "author": "Oliver Song",
+  "license": "MIT",
+  "scripts": {
+    "main": "bash dmv.sh"
+  },
+  "dependencies": {
+    "jssha": "^2.2.0",
+    "moment": "^2.22.2",
+    "oauth-1.0a": "^2.0.0"
+  },
+  "devDependencies": {}
+}
