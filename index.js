@@ -52,6 +52,10 @@ casper.on("remote.message", function(msg) {
   this.echo("remote console.log:" + msg);
 });
 
+casper.userAgent(
+  "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.41 Safari/535.1"
+);
+
 casper.start(url);
 
 casper.then(function() {
