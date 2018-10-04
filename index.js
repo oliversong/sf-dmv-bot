@@ -87,7 +87,7 @@ casper.then(function() {
 casper.then(function() {
   this.echo("Clicking on continue...");
   this.evaluate(function() {
-    $('input[type="submit"]').click();
+    window.onSubmit();
   });
 });
 
