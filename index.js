@@ -5,6 +5,7 @@ var casper = require("casper").create({
 var OAuth = require("oauth-1.0a");
 var jsSHA = require("jssha");
 var moment = require("moment");
+var fs = require("fs");
 
 var oauth = OAuth({
   consumer: {
@@ -33,6 +34,7 @@ var twitterLinked =
   config.twitter.accessTokenSecret &&
   config.twitter.consumerKey &&
   config.twitter.consumerSecret;
+var dmvLoc;
 var providedDay;
 var notify;
 
@@ -63,6 +65,20 @@ casper.then(function() {
 });
 
 casper.then(function() {
+  this.echo("Determining which DMV to look at...");
+  var nextIndex;
+  try {
+    var data = fs.read("./last_location_index.txt");
+    nextIndex = (parseInt(data) + 1) % config.locations.length;
+  } catch (err) {
+    nextIndex = 0;
+  }
+  fs.write("./last_location_index.txt", nextIndex, "w");
+  dmvLoc = config.locations[nextIndex];
+  this.echo("Using location: " + dmvLoc.name);
+});
+
+casper.then(function() {
   this.echo("Filling out dmv form...");
   this.evaluate(
     function(l, fn, ln, ac, tp, ts) {
@@ -75,7 +91,7 @@ casper.then(function() {
       $("#telPrefix").val(tp);
       $("#telSuffix").val(ts);
     },
-    config.locationId,
+    dmvLoc.id,
     config.firstName,
     config.lastName,
     config.areaCode,
@@ -140,7 +156,11 @@ casper.then(function() {
         data: {
           To: toNumber,
           From: fromNumber,
-          Body: "New appointment slot open: " + providedDay,
+          Body:
+            "New appointment slot open: " +
+            providedDay +
+            " at location: " +
+            dmvLoc.name,
           MessagingServiceSid: serviceSid
         }
       }
@@ -153,7 +173,11 @@ casper.then(function() {
 casper.then(function() {
   if (twitterLinked && notify) {
     this.echo("Sending twitter request...");
-    var message = "New appointment slot open: " + providedDay;
+    var message =
+      "New appointment slot open: " +
+      providedDay +
+      " at location: " +
+      dmvLoc.name;
     var requestData = {
       url: "https://api.twitter.com/1.1/statuses/update.json",
       method: "POST",

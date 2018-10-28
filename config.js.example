@@ -4,7 +4,16 @@ module.exports = {
   telSuffix: "",
   firstName: '',
   lastName: '',
-  locationId: '503',
+  locations: [
+    {
+      id: "503",
+      name: "San Francisco"
+    },
+    {
+      id: "599",
+      name: "Daly City"
+    }
+  ],
   threshold: 30,
   twilio: {
     accountSid: 'SID',

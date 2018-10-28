@@ -3,3 +3,4 @@ config.js
 out/
 node_modules/
 npm-debug.log
+last_location_index.txt
